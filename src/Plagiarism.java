@@ -1,6 +1,4 @@
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -167,24 +165,9 @@ public class Plagiarism {
 			subPanel.add(runButton);
 			contentPanel.add(subPanel);
 
-			studentsChoose.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					studentsField.setText(getDirectory());
-				}
-			});
-			templateChoose.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					templateField.setText(getDirectory());
-				}
-			});
-			runButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					runChecker();
-				}
-			});
+			studentsChoose.addActionListener((e) -> studentsField.setText(getDirectory()));
+			templateChoose.addActionListener((e) -> templateField.setText(getDirectory()));
+			runButton.addActionListener((e) -> runChecker());
 
 			// show
 			setVisible(true);
@@ -335,8 +318,7 @@ public class Plagiarism {
 		}
 		int count = s.suspectSet.size();
 		int percent = (int) Math.round(count * 100.0 / total);
-		if (count >= (Integer) myFrame.thresholdLineCountSpinner.getValue()
-				&& percent >= (Integer) myFrame.thresholdPercentSpinner.getValue()) {
+		if (count >= (Integer) myFrame.thresholdLineCountSpinner.getValue() && percent >= (Integer) myFrame.thresholdPercentSpinner.getValue()) {
 			reports.add(new Report(s, t, count, total));
 		}
 	}
