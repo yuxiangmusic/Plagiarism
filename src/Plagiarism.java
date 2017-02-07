@@ -17,6 +17,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -380,20 +381,27 @@ public class Plagiarism {
 	static void runChecker() {
 		reports.clear();
 
-		// Load base
+		File studentsDir = new File(myFrame.studentsField.getText());
+		if (!studentsDir.exists()) {
+			JOptionPane.showMessageDialog(myFrame, "students path does not exist");
+			return;
+		}
 		File templateDir = new File(myFrame.templateField.getText());
-		for (File f : templateDir.listFiles()) {
-			if (f.getName().startsWith("."))
-				continue;
-			readFile(f, baseSet, null);
-			println("Load " + f.getName());
+
+		// Load base
+		if (templateDir.exists()) {
+			for (File f : templateDir.listFiles()) {
+				if (f.getName().startsWith("."))
+					continue;
+				readFile(f, baseSet, null);
+				println("Load " + f.getName());
+			}
 		}
 		println();
 		println("Base size: " + baseSet.size());
 		println();
 
 		// Load students
-		File studentsDir = new File(myFrame.studentsField.getText());
 		Student[] students = new Student[studentsDir.listFiles().length];
 		for (int i = 0; i < students.length; i++) {
 			File f = studentsDir.listFiles()[i];
